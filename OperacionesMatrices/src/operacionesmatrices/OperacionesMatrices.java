@@ -6,6 +6,8 @@
 package operacionesmatrices;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 /**
  *
@@ -16,11 +18,15 @@ public class OperacionesMatrices {
     /**
      * @param args the command line arguments
      */
+    
+    static String [][] matrizReporte;
+    
     public static void main(String[] args) throws IOException {
         int [][] matriz1 = {{2,3,5},{1,2,5},{-2,-4,-6}};
         int [][] matriz2 = {{6,5,3},{10,-3,55},{-20,-23,-16}};
         
-//        int suma [][] = sumarMatrices(matriz1, matriz2);
+        
+        int suma [][] = sumarMatrices(matriz1, matriz2);
         imprimirMatriz(matriz1);
 //        imprimirMatriz(matriz2);
 //        imprimirMatriz(suma);
@@ -30,13 +36,14 @@ public class OperacionesMatrices {
             
 //        int traspuesta [][] = traspuestaMatriz(matriz1);
 //        imprimirMatriz(traspuesta);
-          reporteSuma(matriz1);
+          reporteSuma(suma, matrizReporte);
 
     }
     
     public static int [][] sumarMatrices(int [][] matrizA, int [][] matrizB){
         
         int [][] resultado = new int [matrizA.length][matrizA[0].length];
+        matrizReporte = new String [matrizA.length][matrizA[0].length];
         
         // Validando que tengan las mismas dimensiones
         if((matrizA.length != matrizB.length) || (matrizA[0].length != matrizB[0].length)){
@@ -47,6 +54,7 @@ public class OperacionesMatrices {
         for (int i = 0; i < matrizA.length; i++) {
             for (int j = 0; j < matrizA[0].length; j++) {
                 resultado[i][j] = matrizA[i][j] + matrizB[i][j];
+                matrizReporte[i][j] = "Se sumó el número " + matrizA[i][j] + " con el número " + matrizB[i][j];
             }
         }
         
@@ -113,25 +121,29 @@ public class OperacionesMatrices {
         return traspuesta;
     }
 
-    public static void reporteSuma(int [][] matriz) throws IOException{
+    public static void reporteSuma(int [][] matriz, String [][] desc) throws IOException{
         
         File archivoHTML;
         FileWriter escritor = null;
+        
+        // Fecha y la hora del reporte
+        LocalDate fecha = LocalDate.now();
+        LocalTime hora = LocalTime.now();
         
         try {
             
             archivoHTML = new File("reporteSuma.html");
             escritor = new FileWriter(archivoHTML);
             
-            String contenidoHTML = "<h1 style=\"color: #5e9ca0; text-align: center;\"><span style=\"color: #0000ff;\"><strong>IPC1 Sección E</strong></span></h1>"
-            +"<h2 style=\"color: #2e6c80; text-align: center;\">6/12/2021 - 20:38</h2>"
+            String contenidoHTML = "<h1 style=\"color: black; text-align: center;\"><span style=\"color: black;\"><strong>IPC1 Sección E</strong></span></h1>"
+            +"<h2 style=\"color: #2e6c80; text-align: center;\">" + fecha + " - " + hora + "</h2>"
             +"<h2 style=\"color: #2e6c80;\">&nbsp;</h2>"
-            +"<table class=\"editorDemoTable\" style=\"border-style: solid; border-color: black; margin-left: auto; margin-right: auto;\">"
+            +"<table class=\"editorDemoTable\" style=\"border-style: solid; border-color: black; margin-left: auto; margin-right: auto; border=\"1\"\">"
             +"<thead>"
             +"<tr>"
-            +"<td style=\"width: 188.734px;\"><strong>No. paso</strong></td>"
-            +"<td style=\"width: 355.609px;\"><strong>Descripci&oacute;n</strong></td>"
-            +"<td style=\"width: 120.656px;\"><strong>Valores calculados</strong></td>"
+            +"<td style=\"width: 188.734px;background-color: black; color: white;\"><strong>No. paso</strong></td>"
+            +"<td style=\"width: 355.609px;background-color: black; color: white;\"><strong>Descripci&oacute;n</strong></td>"
+            +"<td style=\"width: 120.656px;background-color: black; color: white;\"><strong>Valores calculados</strong></td>"
             +"</tr>"
             +"</thead>"
             +"<tbody>";
@@ -146,10 +158,10 @@ public class OperacionesMatrices {
 
             for (int i = 0; i < matriz.length; i++) {
                 for (int j = 0; j < matriz[0].length; j++) {
-                    contenidoHTML += "<tr>";
-                    contenidoHTML += "<td style=\"width: 188.734px;\">" + contador + "</td>";
-                    contenidoHTML += "<td style=\"width: 355.609px;\">Se sumaron los valores</td>";
-                    contenidoHTML += "<td style=\"width: 355.609px;\">" + matriz[i][j] + "</td>";
+                    contenidoHTML += "<tr style=\"outline: solid thin;\">";
+                    contenidoHTML += "<td style=\"width: 188.734px; outline: solid thin;\">" + contador + "</td>";
+                    contenidoHTML += "<td style=\"width: 355.609px; outline: solid thin;\">" + desc[i][j] + "</td>";
+                    contenidoHTML += "<td style=\"width: 355.609px; outline: solid thin;\">" + matriz[i][j] + "</td>";
                     contenidoHTML += "</tr>";
                     contador++;
                 }
