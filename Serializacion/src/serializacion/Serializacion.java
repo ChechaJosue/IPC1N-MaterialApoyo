@@ -22,45 +22,60 @@ import java.io.ObjectOutputStream;
 public class Serializacion {
 
     public static Carro carros[];
+    public static Vendedor vendedores[];
+    public static Login ventanaLogin = new Login();
+    public static Aplicacion ventanaAplicacion = new Aplicacion();
+
+    public static String correoUsuario;
 
     public static void main(String[] args) throws IOException {
 
-        String textoJSON = leerArchivo("Carros100.json");
-        System.out.println(textoJSON + "\n\n********************************");
-        
-        // Leer JSON y cargarlo al arreglo
-        carros = (Carro []) leerJSON(textoJSON, new Carro());
-//        vendedores = (Vendedor []) leerJSON(textoJSON, new Vendedor());
-//        clientes = (Cliente []) leerJSON(textoJSON, new Cliente());
-        
-        for (Carro carro : carros) {
-            System.out.println(carro + "\n");
+        String textoVendedores = leerArchivo("Vendedores.json");
+        vendedores = (Vendedor[]) leerJSON(textoVendedores, new Vendedor());
+
+        for (Vendedor vendedor : vendedores) {
+            System.out.println(vendedor);
         }
-        
-        System.out.println("");
-        
-        // Serializamos nuestro arreglo
-        serializarArreglo(carros, "Carros.dat");
-        
-        // Borramos todos los carros
-        carros = new Carro[100];
-        
-        System.out.println(carros[0]);
-        
-        // Recuperar los carros del archivo Carros.dat
-        
-        carros = (Carro []) leerArregloSerializado("Carros.dat");
-        
-        for (Carro carro : carros) {
-            System.out.println(carro + "\n\n");
-        }
+
+        ventanaAplicacion.setVisible(false);
+        ventanaLogin.setVisible(true);
+
+//        String textoJSON = leerArchivo("Carros100.json");
+//        System.out.println(textoJSON + "\n\n********************************");
+//        
+//        // Leer JSON y cargarlo al arreglo
+//        carros = (Carro []) leerJSON(textoJSON, new Carro());
+////        vendedores = (Vendedor []) leerJSON(textoJSON, new Vendedor());
+////        clientes = (Cliente []) leerJSON(textoJSON, new Cliente());
+//        
+//        for (Carro carro : carros) {
+//            System.out.println(carro + "\n");
+//        }
+//        
+//        System.out.println("");
+//        
+//        // Serializamos nuestro arreglo
+//        serializarArreglo(carros, "Carros.dat");
+//        
+//        // Borramos todos los carros
+//        carros = new Carro[100];
+//        
+//        System.out.println(carros[0]);
+//        
+//        // Recuperar los carros del archivo Carros.dat
+//        
+//        carros = (Carro []) leerArregloSerializado("Carros.dat");
+//        
+//        for (Carro carro : carros) {
+//            System.out.println(carro + "\n\n");
+//        }
     }
-    
-    static Object [] leerArregloSerializado(String ruta){
+
+    static Object[] leerArregloSerializado(String ruta) {
         try {
-            
+
             ObjectInputStream leer_archivo = new ObjectInputStream(new FileInputStream(ruta));
-            Object arreglo_recuperado [] = (Object []) leer_archivo.readObject();
+            Object arreglo_recuperado[] = (Object[]) leer_archivo.readObject();
             leer_archivo.close();
             System.out.println("\n** Se recuperó el arreglo " + ruta + " correctamente.\n\n");
             return arreglo_recuperado;
@@ -68,11 +83,11 @@ public class Serializacion {
             System.out.println("\n**Ocurrió un error al recuperar el arreglo.");
             e.printStackTrace();
         }
-        
+
         return null;
     }
 
-    static void serializarArreglo(Object arreglo [], String ruta){
+    static void serializarArreglo(Object arreglo[], String ruta) {
         try {
             ObjectOutputStream escribir_archivo = new ObjectOutputStream(new FileOutputStream(ruta));
             escribir_archivo.writeObject(arreglo);
@@ -83,7 +98,7 @@ public class Serializacion {
             e.printStackTrace();
         }
     }
-    
+
     static String leerArchivo(String ruta) throws IOException {
         String texto = "";
         BufferedReader lector = null;
@@ -109,18 +124,18 @@ public class Serializacion {
 
         return texto;
     }
-    
-    static Object [] leerJSON(String textoJSON, Object obj){
+
+    static Object[] leerJSON(String textoJSON, Object obj) {
         Gson gson = new Gson();
-        
+
         // Si el objeto es instancia de carro
-        if(obj instanceof Carro){
+        if (obj instanceof Carro) {
             return gson.fromJson(textoJSON, Carro[].class);
-        // Si el objeto es instancia de Vendedor
-        } else if (obj instanceof Vendedor){
+            // Si el objeto es instancia de Vendedor
+        } else if (obj instanceof Vendedor) {
             return gson.fromJson(textoJSON, Vendedor[].class);
         }
-        
+
         // Si el objeto es instancia de cliente
         return gson.fromJson(textoJSON, Cliente[].class);
     }
