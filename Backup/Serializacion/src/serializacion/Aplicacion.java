@@ -18,11 +18,30 @@ public class Aplicacion extends javax.swing.JFrame {
      * Creates new form Aplicacion
      */
     static DefaultTableModel modeloTablaCarros;
-    
+
     public Aplicacion() {
         initComponents();
         modeloTablaCarros = (DefaultTableModel) tablaCarros.getModel();
-//        cargarDatosTabla();
+        cargarDatos();
+    }
+
+    public static void cargarDatos() {
+        try {
+
+            int indice = 0;
+
+            for (Carro carro : Serializacion.carros) {
+                if (carro != null) {
+                    modeloTablaCarros.insertRow(indice, carro.toArregloString());
+                    indice++;
+                }
+            }
+
+            System.out.println("Datos cargados.");
+        } catch (Exception e) {
+            System.out.println("Error al cargar los datos a la tabla.");
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -43,8 +62,6 @@ public class Aplicacion extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnSalir = new javax.swing.JButton();
         txtCorreoUsuario = new javax.swing.JLabel();
-        btnLimpiar = new javax.swing.JButton();
-        btnCargar = new javax.swing.JButton();
         btnGraficar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -53,14 +70,14 @@ public class Aplicacion extends javax.swing.JFrame {
 
         tablaCarros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null}
             },
             new String [] {
                 "VIN", "Fabricante", "Modelo", "Año", "Precio"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -68,10 +85,6 @@ public class Aplicacion extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(tablaCarros);
-        if (tablaCarros.getColumnModel().getColumnCount() > 0) {
-            tablaCarros.getColumnModel().getColumn(1).setResizable(false);
-            tablaCarros.getColumnModel().getColumn(4).setResizable(false);
-        }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -86,8 +99,8 @@ public class Aplicacion extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         panelPestanas.addTab("Carros", jPanel1);
@@ -134,20 +147,9 @@ public class Aplicacion extends javax.swing.JFrame {
         txtCorreoUsuario.setFont(new java.awt.Font("Roboto Slab", 1, 14)); // NOI18N
         txtCorreoUsuario.setText("jLabel2");
 
-        btnLimpiar.setText("Limpiar");
-        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLimpiarActionPerformed(evt);
-            }
-        });
-
-        btnCargar.setText("Cargar");
-        btnCargar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCargarActionPerformed(evt);
-            }
-        });
-
+        btnGraficar.setBackground(new java.awt.Color(0, 204, 0));
+        btnGraficar.setFont(new java.awt.Font("Roboto Slab", 1, 14)); // NOI18N
+        btnGraficar.setForeground(new java.awt.Color(255, 255, 255));
         btnGraficar.setText("Graficar");
         btnGraficar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -159,93 +161,58 @@ public class Aplicacion extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(122, 122, 122)
-                .addComponent(panelPestanas, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(128, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(42, 42, 42)
                 .addComponent(txtCorreoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnLimpiar)
-                .addGap(18, 18, 18)
-                .addComponent(btnCargar)
-                .addGap(18, 18, 18)
-                .addComponent(btnGraficar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 503, Short.MAX_VALUE)
                 .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelPestanas, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(btnGraficar)
+                .addGap(48, 48, 48))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtCorreoUsuario)
-                        .addComponent(btnLimpiar)
-                        .addComponent(btnCargar)
-                        .addComponent(btnGraficar)))
-                .addGap(18, 18, 18)
-                .addComponent(panelPestanas, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(76, Short.MAX_VALUE))
+                    .addComponent(txtCorreoUsuario))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(54, 54, 54)
+                        .addComponent(panelPestanas, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(75, 75, 75)
+                        .addComponent(btnGraficar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         panelPestanas.getAccessibleContext().setAccessibleName("panelTab");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
-    public void limpiarDatosTabla(){
-        for (int i = modeloTablaCarros.getRowCount()-1; i >= 0; i--) {
-            modeloTablaCarros.removeRow(i);
-        }
-    }
-    
-    public void cargarDatosTabla(){
-        
-        limpiarDatosTabla();
-        
-        try {
-            int indice = 0;
-            
-            for (Carro carro : Serializacion.carros) {
-                modeloTablaCarros.insertRow(indice, carro.getArregloDatos());
-            }
-        } catch (Exception e) {
-        }
-    }
-    
-    public void setCorreoUsuario(String correo){
+
+    public void setCorreoUsuario(String correo) {
         this.txtCorreoUsuario.setText(correo);
     }
-    
+
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-       
+
+        Serializacion.configuracion.setNombre("PRUEBA");
+        Serializacion.configuracion.setSlogan("SLOGAN");
+        Serializacion.serializarConfig();
         Serializacion.correoUsuario = "";
         this.setVisible(false);
         Serializacion.ventanaLogin.setVisible(true);
-        
+
     }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        limpiarDatosTabla();
-    }//GEN-LAST:event_btnLimpiarActionPerformed
-
-    private void btnCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarActionPerformed
-        cargarDatosTabla();
-    }//GEN-LAST:event_btnCargarActionPerformed
-
     private void btnGraficarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGraficarActionPerformed
-        GraficaPie graficaPieV = new GraficaPie("Género vendedores", Serializacion.vendedores);
-        graficaPieV.setSize(800,600);
-        graficaPieV.setVisible(true);
-        
-        GraficaBarras graficaBarras = new GraficaBarras("Top precios de carros");
-        graficaBarras.setSize(800,600);
-        graficaBarras.setVisible(true);
-        
+        // TODO add your handling code here:
     }//GEN-LAST:event_btnGraficarActionPerformed
 
     /**
@@ -284,9 +251,7 @@ public class Aplicacion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCargar;
     private javax.swing.JButton btnGraficar;
-    private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> comboMarcas;
     private javax.swing.JLabel jLabel1;

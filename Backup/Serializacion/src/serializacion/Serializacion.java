@@ -21,48 +21,89 @@ import java.io.ObjectOutputStream;
  */
 public class Serializacion {
 
+    public static Configuracion configuracion = new Configuracion("Nombre empresa", "Slogan empresa");
+    ;
     public static Carro carros[];
     public static Vendedor vendedores[];
-    public static Login ventanaLogin;
+    public static Login ventanaLogin = new Login();
     public static Aplicacion ventanaAplicacion;
 
     public static String correoUsuario;
 
     public static void main(String[] args) throws IOException {
-        cargarDatosSerializados();
-        inicarGUI();
-    }
 
-    static void serializarDefault() throws IOException {
-        String textoCarros = leerArchivo("Carros100.json");
-        carros = (Carro[]) leerJSON(textoCarros, new Carro());
-        serializarArreglo(carros, "Carros.dat");
-        
-        String textoVendedores = leerArchivo("Vendedores.json");
-        vendedores = (Vendedor[]) leerJSON(textoVendedores, new Vendedor());
-        serializarArreglo(vendedores, "Vendedores.dat");
-    }
+//        String textoVendedores = leerArchivo("Vendedores.json");
+//        vendedores = (Vendedor[]) leerJSON(textoVendedores, new Vendedor());
+//
+//        for (Vendedor vendedor : vendedores) {
+//            System.out.println(vendedor);
+//        }
+        File archivoConfig = new File("Configuracion.dat");
 
-    static void inicarGUI() {
-        ventanaLogin = new Login();
-        ventanaAplicacion = new Aplicacion();
-
-        ventanaAplicacion.setVisible(false);
-        ventanaLogin.setVisible(true);
-    }
-
-    static void cargarDatosSerializados() throws IOException {
-
-        File archivoCarros, archivoVendedores;
-        archivoCarros = new File("Carros.dat");
-        archivoVendedores = new File("Vendedores.dat");
-
-        if (archivoCarros.exists() && !archivoCarros.isDirectory()) {
-            carros = (Carro[]) leerArregloSerializado("Carros.dat");
+        if (archivoConfig.exists() && !archivoConfig.isDirectory()) {
+            configuracion = leerConfiguracion();
         }
 
-        if (archivoVendedores.exists() && !archivoVendedores.isDirectory()) {
-            vendedores = (Vendedor[]) leerArregloSerializado("Vendedores.dat");
+        String textoJSON = leerArchivo("Carros100.json");
+        System.out.println(textoJSON + "\n\n********************************");
+
+        // Leer JSON y cargarlo al arreglo
+        carros = (Carro[]) leerJSON(textoJSON, new Carro());
+//        vendedores = (Vendedor []) leerJSON(textoJSON, new Vendedor());
+//        clientes = (Cliente []) leerJSON(textoJSON, new Cliente());
+
+        for (Carro carro : carros) {
+            System.out.println(carro + "\n");
+        }
+
+        System.out.println("");
+
+        ventanaAplicacion = new Aplicacion();
+        ventanaAplicacion.setVisible(false);
+        ventanaLogin.setVisible(true);
+//        
+//        // Serializamos nuestro arreglo
+//        serializarArreglo(carros, "Carros.dat");
+//        
+//        // Borramos todos los carros
+//        carros = new Carro[100];
+//        
+//        System.out.println(carros[0]);
+//        
+//        // Recuperar los carros del archivo Carros.dat
+//        
+//        carros = (Carro []) leerArregloSerializado("Carros.dat");
+//        
+//        for (Carro carro : carros) {
+//            System.out.println(carro + "\n\n");
+//        }
+    }
+
+    static Configuracion leerConfiguracion() {
+        try {
+            ObjectInputStream leer_archivo = new ObjectInputStream(new FileInputStream("Configuracion.dat"));
+            Configuracion config_recuperada = (Configuracion) leer_archivo.readObject();
+            leer_archivo.close();
+            System.out.println("\n** Se recuperó el arreglo la configuracion correctamente.\n\n");
+            return config_recuperada;
+        } catch (Exception e) {
+            System.out.println("\n**Ocurrió un error al recuperar la config.");
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static void serializarConfig() {
+        try {
+            ObjectOutputStream escribir_archivo = new ObjectOutputStream(new FileOutputStream("Configuracion.dat"));
+            escribir_archivo.writeObject(configuracion);
+            escribir_archivo.close();
+            ventanaLogin.txtNombre.setText(configuracion.getNombre());
+            ventanaLogin.txtSlogan.setText(configuracion.getSlogan());
+            System.out.println("** Se serializó la config correctamente");
+        } catch (Exception e) {
+            System.out.println("** Hubo un error al serializar la config");
+            e.printStackTrace();
         }
     }
 

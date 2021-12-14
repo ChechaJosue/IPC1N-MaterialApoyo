@@ -26,11 +26,6 @@ public class Carro implements Serializable {
     
     // Getters
     
-    public String [] getArregloDatos(){
-        String retorno [] = { String.valueOf(this.VIN), String.valueOf(this.fabricante), String.valueOf(this.modelo), String.valueOf(this.year), String.valueOf(this.precio) };
-        return retorno;
-    }
-    
     public int getYear() {
         return year;
     }
@@ -73,7 +68,10 @@ public class Carro implements Serializable {
         this.precio = precio;
     }
 
-    
+    public String [] toArregloString(){
+        String retorno [] = {String.valueOf(this.VIN), String.valueOf(this.fabricante), String.valueOf(this.modelo), String.valueOf(this.year), String.valueOf(this.precio)};
+        return retorno;
+    }
     
     @Override
     public String toString(){

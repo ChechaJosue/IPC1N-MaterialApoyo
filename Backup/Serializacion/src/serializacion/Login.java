@@ -40,6 +40,8 @@ public class Login extends javax.swing.JFrame {
         txtCorreo = new javax.swing.JTextField();
         txtPwd = new javax.swing.JPasswordField();
         btnLogin = new javax.swing.JButton();
+        txtNombre = new javax.swing.JLabel();
+        txtSlogan = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Inicio de sesión");
@@ -73,6 +75,10 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        txtNombre.setText("jLabel3");
+
+        txtSlogan.setText("jLabel3");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -82,11 +88,16 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(163, 163, 163)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(94, 94, 94)
-                                .addComponent(txtPwd, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(txtPwd, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtNombre)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(246, 246, 246)
+                                .addComponent(txtSlogan))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(294, 294, 294)
                         .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -100,7 +111,11 @@ public class Login extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(142, 142, 142)
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNombre)
+                    .addComponent(txtSlogan))
+                .addGap(89, 89, 89)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -133,11 +148,6 @@ public class Login extends javax.swing.JFrame {
         txtCorreo.setText("");
         txtPwd.setText("");
 
-        this.setVisible(false);
-        Serializacion.ventanaAplicacion.cargarDatosTabla();
-        Serializacion.ventanaAplicacion.setVisible(true);
-        return;
-
         // Validando las credenciales del administrador
 //        if (correoAdmin.equals(correo) && pwdAdmin.equals(pwd)) {
 //            JOptionPane.showMessageDialog(null, "Bienvenido admin", "Login", JOptionPane.INFORMATION_MESSAGE);
@@ -146,27 +156,32 @@ public class Login extends javax.swing.JFrame {
 //            Serializacion.ventanaAplicacion.setCorreoUsuario(correo);
 //
 //            this.setVisible(false);
-//            Serializacion.ventanaAplicacion.cargarDatosTabla();
 //            Serializacion.ventanaAplicacion.setVisible(true);
 //            return;
 //        }
+    
+        if (true) {
+            this.setVisible(false);
+//            Serializacion.ventanaAplicacion.cargarDatos();
+            Serializacion.ventanaAplicacion.setVisible(true);
+            return;
+        }
 
         // Validando si es un vendedor
-//        for (Vendedor vendedor : Serializacion.vendedores) {
-//            if (vendedor.login(correo, pwd)) {
-//                JOptionPane.showMessageDialog(null, "Bienvenido " + vendedor.getNombre(), "Login", JOptionPane.INFORMATION_MESSAGE);
-//                Serializacion.correoUsuario = correo;
-//
-//                Serializacion.ventanaAplicacion.setCorreoUsuario(correo);
-//
-//                this.setVisible(false);
-//                Serializacion.ventanaAplicacion.cargarDatosTabla();
-//                Serializacion.ventanaAplicacion.setVisible(true);
-//                return;
-//            }
-//        }
-//
-//        JOptionPane.showMessageDialog(null, "¡Credenciales incorrectas!", "Login", JOptionPane.ERROR_MESSAGE);
+        for (Vendedor vendedor : Serializacion.vendedores) {
+            if (vendedor.login(correo, pwd)) {
+                JOptionPane.showMessageDialog(null, "Bienvenido " + vendedor.getNombre(), "Login", JOptionPane.INFORMATION_MESSAGE);
+                Serializacion.correoUsuario = correo;
+
+                Serializacion.ventanaAplicacion.setCorreoUsuario(correo);
+
+                this.setVisible(false);
+                Serializacion.ventanaAplicacion.setVisible(true);
+                return;
+            }
+        }
+
+        JOptionPane.showMessageDialog(null, "¡Credenciales incorrectas!", "Login", JOptionPane.ERROR_MESSAGE);
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
@@ -209,6 +224,8 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField txtCorreo;
+    public javax.swing.JLabel txtNombre;
     private javax.swing.JPasswordField txtPwd;
+    public javax.swing.JLabel txtSlogan;
     // End of variables declaration//GEN-END:variables
 }
