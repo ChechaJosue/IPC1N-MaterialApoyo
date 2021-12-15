@@ -12,6 +12,8 @@ public class Carro implements Serializable {
     private int year;
     private String VIN, fabricante, modelo;
     private double precio;
+    
+    public static int contador = 0;
 
     public Carro() {
     }
@@ -22,6 +24,7 @@ public class Carro implements Serializable {
         this.fabricante = fabricante;
         this.modelo = modelo;
         this.precio = precio;
+        contador++;
     }
     
     // Getters
@@ -52,6 +55,13 @@ public class Carro implements Serializable {
     }
 
     // Setters 
+    
+    public void modificarCarro(String fabricante, String modelo, int year, double precio) {
+        this.year = year;
+        this.fabricante = fabricante;
+        this.modelo = modelo;
+        this.precio = precio;
+    }
     
     public void setYear(int year) {
         this.year = year;

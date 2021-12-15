@@ -81,6 +81,11 @@ public class Serializacion {
 
         return null;
     }
+    
+    static void guardarCarros(){
+        serializarArreglo(carros, "Carros.dat");
+        System.out.println("\n\nCarros guardados.\n");
+    }
 
     static void serializarArreglo(Object arreglo[], String ruta) {
         try {
