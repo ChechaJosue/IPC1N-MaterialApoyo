@@ -29,12 +29,13 @@ public class Serializacion {
     public static String correoUsuario;
 
     public static void main(String[] args) throws IOException {
-        cargarDatosSerializados();
+//        cargarDatosSerializados();
+        serializarDefault();
         inicarGUI();
     }
 
     static void serializarDefault() throws IOException {
-        String textoCarros = leerArchivo("Carros100.json");
+        String textoCarros = leerArchivo("Carros.json");
         carros = (Carro[]) leerJSON(textoCarros, new Carro());
         serializarArreglo(carros, "Carros.dat");
         
@@ -138,5 +139,8 @@ public class Serializacion {
 
         // Si el objeto es instancia de cliente
         return gson.fromJson(textoJSON, Cliente[].class);
+        
+        // for i = 0; i < (carros.length - carros.contador)-1; i++
+        
     }
 }
