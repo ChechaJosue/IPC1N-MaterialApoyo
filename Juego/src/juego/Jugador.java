@@ -37,7 +37,7 @@ public class Jugador {
     }
     
     public void moverDerecha(){
-        if(this.x <= (636-this.velocidadX)){
+        if(this.x <= (formPadre.getWidth()-64-this.velocidadX)){
             this.x += this.velocidadX;
             actualizarLabel();
         }

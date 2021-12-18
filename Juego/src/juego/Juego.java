@@ -17,42 +17,48 @@ import javax.swing.JLabel;
 public class Juego extends javax.swing.JFrame {
 
     Jugador jugador;
-    Rectangle hitBoxAlien = new Rectangle();
-    Rectangle hitBoxAlien2 = new Rectangle();
-    ArrayList<JLabel> aliens = new ArrayList<>();
+    MovimientoAliens movimientoAliens;
+    ArrayList<Alien> aliens = new ArrayList<>();
+    ArrayList<Bala> balas = new ArrayList<>();
     
     public Juego() {
         initComponents();
         this.setLocationRelativeTo(null);
         
-        // Temporal
-        hitBoxAlien.setBounds(Alien.getX(), Alien.getY(), 64, 64);
-        hitBoxAlien2.setBounds(Alien2.getX(), Alien2.getY(), 64, 64);
-        
-        aliens.add(Alien);
-        aliens.add(Alien2);
-        
         inicializarPartida();
-        
-        
         this.setVisible(true);
     }
 
     
     public void inicializarPartida(){
-        jugador = new Jugador(318, 736, this);
+        jugador = new Jugador((this.getWidth()/2)-32, this.getHeight()-100, this);
+        generarAliens();
+        movimientoAliens = new MovimientoAliens(aliens, this, jugador);
+        movimientoAliens.start();
     }
     
-    void validarColision(){
-        for (JLabel alien : aliens) {
-            if(jugador.hitbox.intersects(hitBoxAlien) || jugador.hitbox.intersects(hitBoxAlien2)){
-                System.out.println("Colision");
-                this.remove(alien);
-                aliens.remove(alien);
-                break;
+    public void generarAliens(){
+        int posY = 0;
+        
+        // Aliens tipo 3
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 8; j++) {
+                aliens.add(new Alien(3, j*64, posY, this));
             }
+            posY += 64;
+        }
+        
+        // Aliens tipo 2
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 8; j++) {
+                aliens.add(new Alien(2, j*64, posY, this));
+            }
+            posY += 64;
         }
     }
+    
+    
+
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -63,9 +69,6 @@ public class Juego extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        Alien2 = new javax.swing.JLabel();
-        Alien = new javax.swing.JLabel();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Juego");
         setResizable(false);
@@ -75,36 +78,15 @@ public class Juego extends javax.swing.JFrame {
             }
         });
 
-        Alien2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/ALIEN.png"))); // NOI18N
-        Alien2.setPreferredSize(new java.awt.Dimension(64, 64));
-
-        Alien.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/ALIEN.png"))); // NOI18N
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addComponent(Alien2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(576, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(576, Short.MAX_VALUE)
-                    .addComponent(Alien, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(60, 60, 60)))
+            .addGap(0, 512, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(730, Short.MAX_VALUE)
-                .addComponent(Alien2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(106, 106, 106))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(733, Short.MAX_VALUE)
-                    .addComponent(Alien, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(103, 103, 103)))
+            .addGap(0, 900, Short.MAX_VALUE)
         );
 
         pack();
@@ -125,11 +107,10 @@ public class Juego extends javax.swing.JFrame {
                 break;
                 
             case KeyEvent.VK_SPACE:
-                System.out.println("Espacio");
+                balas.add(new Bala(this));
                 break;
         }
         
-        validarColision();
     }//GEN-LAST:event_formKeyPressed
 
     /**
@@ -171,7 +152,5 @@ public class Juego extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Alien;
-    private javax.swing.JLabel Alien2;
     // End of variables declaration//GEN-END:variables
 }
