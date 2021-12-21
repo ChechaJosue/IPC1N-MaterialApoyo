@@ -68,6 +68,7 @@ public class Alien {
                 this.imagen.setVisible(false);
                 juego.remove(imagen);
                 juego.aliens.remove(this);
+                this.juego.actualizarPuntos(this.puntos);
                 return true;
             }
             

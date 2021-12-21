@@ -49,7 +49,7 @@ public class MovimientoAliens extends Thread {
                     alien.actualizar();
                 }
                 
-                System.out.println("\n- Movimiento aliens.");
+                //System.out.println("\n- Movimiento aliens.");
                 
                 sleep(1000);
                 

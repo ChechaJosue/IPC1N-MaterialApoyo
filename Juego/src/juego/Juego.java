@@ -9,6 +9,7 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,10 +17,13 @@ import javax.swing.JLabel;
  */
 public class Juego extends javax.swing.JFrame {
 
+    int puntos = 0;
     Jugador jugador;
+    GenerarPotenciadores generarPotenciadores;
     MovimientoAliens movimientoAliens;
     ArrayList<Alien> aliens = new ArrayList<>();
     ArrayList<Bala> balas = new ArrayList<>();
+    ArrayList<Potenciador> potenciadores = new ArrayList<>();
     
     public Juego() {
         initComponents();
@@ -30,11 +34,18 @@ public class Juego extends javax.swing.JFrame {
     }
 
     
+    public void actualizarPuntos(int puntos){
+        this.puntos += puntos;
+        this.lblPuntos.setText(String.valueOf(this.puntos));
+        this.repaint();
+    }
+    
     public void inicializarPartida(){
         jugador = new Jugador((this.getWidth()/2)-32, this.getHeight()-100, this);
         generarAliens();
         movimientoAliens = new MovimientoAliens(aliens, this, jugador);
         movimientoAliens.start();
+        generarPotenciadores = new GenerarPotenciadores(this);
     }
     
     public void generarAliens(){
@@ -69,6 +80,8 @@ public class Juego extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lblPuntos = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Juego");
         setResizable(false);
@@ -78,15 +91,24 @@ public class Juego extends javax.swing.JFrame {
             }
         });
 
+        lblPuntos.setFont(new java.awt.Font("Roboto Slab", 1, 18)); // NOI18N
+        lblPuntos.setText("0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 512, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(476, Short.MAX_VALUE)
+                .addComponent(lblPuntos)
+                .addGap(26, 26, 26))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 900, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(853, Short.MAX_VALUE)
+                .addComponent(lblPuntos)
+                .addGap(23, 23, 23))
         );
 
         pack();
@@ -108,6 +130,38 @@ public class Juego extends javax.swing.JFrame {
                 
             case KeyEvent.VK_SPACE:
                 balas.add(new Bala(this));
+                break;
+                
+            case KeyEvent.VK_ESCAPE:
+                
+                movimientoAliens.suspend();
+                generarPotenciadores.suspend();
+                
+                for (Bala bala : balas) {
+                    bala.suspend();
+                }
+                for (Potenciador poten : potenciadores) {
+                    poten.suspend();
+                }
+                
+                Object [] opciones = {"Regresar al menú", "Continuar"};
+                int respuesta = JOptionPane.showOptionDialog(null, "Juego pausado", "Pausa", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+                System.out.println("respuesta: " + respuesta);
+                
+                if(respuesta == 0){
+                    // Terminar el juego y regresar al menú
+                    System.out.println("Juego terminado");
+                    return;
+                }
+                movimientoAliens.resume();
+                generarPotenciadores.resume();
+                
+                for (Bala bala : balas) {
+                    bala.resume();
+                }
+                for (Potenciador poten : potenciadores) {
+                    poten.resume();
+                }
                 break;
         }
         
@@ -152,5 +206,6 @@ public class Juego extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel lblPuntos;
     // End of variables declaration//GEN-END:variables
 }

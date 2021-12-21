@@ -47,7 +47,8 @@ public class Bala extends Thread {
                 
                 for (Alien alien : this.juego.aliens) {
                     if(alien.validarImpacto(this.hitbox)){
-                        System.out.println("\n-- Impacto bala");
+                        System.out.println("\n-- Impacto bala +" + alien.puntos + " puntos y=" + this.y);
+                        
                         this.y = -24;
                         break;
                     }
