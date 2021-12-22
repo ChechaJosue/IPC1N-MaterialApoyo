@@ -1,0 +1,27 @@
+GET http://localhost:3000/saludo
+
+###
+
+POST http://localhost:3000/saludo
+Content-Type: application/json
+
+{
+    "nombre": "Josue",
+    "edad": 23
+}
+
+###
+
+PUT http://localhost:3000/usuario
+Content-Type: application/json
+
+{
+    "nombre": "Pedro",
+    "correo": "pedro@gmail.com",
+    "pwd": "123123@@@@$$$",
+    "edad": 20
+}
+
+###
+
+GET http://localhost:3000/usuario
