@@ -16,7 +16,7 @@ PUT http://localhost:3000/usuario
 Content-Type: application/json
 
 {
-    "nombre": "Pedro",
+    "nombre": "Kevin",
     "correo": "pedro@gmail.com",
     "pwd": "123123@@@@$$$",
     "edad": 20
