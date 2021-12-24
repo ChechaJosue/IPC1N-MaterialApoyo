@@ -2,10 +2,12 @@ from flask import Flask, json, request, jsonify
 from flask_cors import CORS
 from CRUD_Usuarios import CRUD_Usuarios
 from CRUD_Clientes import CRUD_Clientes
+from CRUD_Productos import CRUD_Productos
 
 # Inicializar el servidor de flask
 crudUsuarios = CRUD_Usuarios()
 crudClientes = CRUD_Clientes()
+crudProductos = CRUD_Productos()
 app = Flask(__name__)
 CORS(app)
 
@@ -95,6 +97,15 @@ def crearCliente():
     
     res = crudClientes.createCliente(dpi, nombre, apellido, correo, password, edad, compras)
     return jsonify({ "mensaje": "Cliente creado con exito", "data": res}), 201
+
+@app.route('/producto', methods=["PUT"])
+def cargaMasiva():
+    resultado = crudProductos.cargaMasiva(request.json)
+
+    if not resultado:
+        return jsonify({ "mensaje": "Ocurrió un error durante la carga masiva" }), 500
+
+    return jsonify({ "mensaje": "Carga masiva exitosa", "data": resultado})
 
 @app.route('/cliente', methods=["GET"])
 def getClientes():
