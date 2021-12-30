@@ -1,8 +1,8 @@
 {
-  "no": 101,
-  "fecha": "21/05/2021",
-  "dpi_cliente": 5464578460553,
-  "nombre_cliente": "Jaquenette",
-  "total": 3147.87,
+  "no": 111,
+  "fecha": "22/05/2021",
+  "dpi_cliente": 1111111111111,
+  "nombre_cliente": "CALIFICACION",
+  "total": 3111.11,
   "producto": {"nombre": "PS5", "precio": 3147.87}
 }

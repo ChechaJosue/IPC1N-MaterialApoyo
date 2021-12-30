@@ -1,5 +1,5 @@
 from flask import Flask, json, request, jsonify
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from CRUD_Usuarios import CRUD_Usuarios
 from CRUD_Clientes import CRUD_Clientes
 from CRUD_Productos import CRUD_Productos
@@ -80,6 +80,18 @@ def deleteUsuario():
         return jsonify({ "mensaje": "Usuario con id " + str(id_u) + " eliminado con éxito" }), 200
     
     return jsonify({ "mensaje": "Usuario no encontrado" }), 404
+
+@app.route('/cliente', methods=["DELETE"])
+@cross_origin()
+def deleteCliente():
+    id_u = request.json["dpi"]
+    print(request.json)
+    resultado = crudClientes.deleteCliente(id_u)
+
+    if resultado:
+        return jsonify({ "mensaje": "Cliente con id " + str(id_u) + " eliminado con éxito" }), 200
+    
+    return jsonify({ "mensaje": "Cliente no encontrado" }), 404
 
 ################################################################
 

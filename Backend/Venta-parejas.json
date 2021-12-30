@@ -1,11 +1,11 @@
 {
-    "no": 102,
-    "fecha": "01/01/2022",
-    "dpi_cliente": 1261212245,
+    "no": 222,
+    "fecha": "02/02/2222",
+    "dpi_cliente": 2222222222,
     "nombre_cliente": "Ana Maria",
     "productos": [
-        {"nombre": "PS5", "precio": 5000.00},
-        {"nombre": "Gorra", "precio": 250.00}
+        {"nombre": "PS2", "precio": 2000.00},
+        {"nombre": "Gorra", "precio": 220.00}
     ],
     "total": 5250.00
 }
