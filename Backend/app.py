@@ -26,7 +26,10 @@ CORS(app)
 
 @app.route('/', methods=["GET"])
 def paginaInicial():
-    print('Pagina inicial')
+    
+    for numero in request.json['numeros']:
+        print(numero)
+
     return jsonify({ "mensaje": "Pagina inicial" })
 
 @app.route('/auth', methods=["POST"])
@@ -78,6 +81,23 @@ def deleteUsuario():
 
     if resultado:
         return jsonify({ "mensaje": "Usuario con id " + str(id_u) + " eliminado con éxito" }), 200
+    
+    return jsonify({ "mensaje": "Usuario no encontrado" }), 404
+
+@app.route('/cliente', methods=["POST"])
+def updateCliente():
+    dpi = request.json["dpi"]
+    nombre = request.json["nombre"]
+    correo = request.json["correo"]
+    pwd = request.json["password"]
+    edad = request.json["edad"]
+    compras = request.json["compras"]
+    apellido = request.json["apellido"]
+
+    resultado = crudClientes.updateCliente(dpi, nombre, apellido, correo, pwd, edad, compras)
+
+    if resultado:
+        return jsonify({ "mensaje": "Usuario " + nombre + " modificado con éxito" }), 200
     
     return jsonify({ "mensaje": "Usuario no encontrado" }), 404
 

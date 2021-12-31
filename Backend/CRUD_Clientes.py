@@ -31,7 +31,7 @@ class CRUD_Clientes:
                 cliente.nombre = nombre
                 cliente.apellido = apellido 
                 cliente.correo = correo 
-                cliente.password = password 
+                if password != "": cliente.password = password 
                 cliente.edad = edad 
                 cliente.compras = compras 
                 return True
